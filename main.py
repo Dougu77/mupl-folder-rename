@@ -11,8 +11,6 @@ explain_create_chapters_folder(language)
 
 create_chapters_folder()
 
-test()
-
 confirm_chapters_folder_insertion(language)
 
 start_fix_chapter_numeration(language)
@@ -23,9 +21,15 @@ finish_fix_chapter_numeration(language)
 
 work = define_work(language)
 
+volumes = define_volumes(language)
+
+chapter_title = define_chapter_title(language)
+
+groups = define_groups(language)
+
 start_rename_folders(language)
 
-rename_folders(work)
+rename_folders(work, volumes, chapter_title, groups)
 
 finish_rename_folders(language)
 

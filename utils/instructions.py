@@ -26,14 +26,26 @@ def program_title(language:str):
     print()
 
 def program_explanation(language:str):
+    uploader_link = 'https://github.com/OneDefauter/mupl'
+    pyneko_link = 'https://github.com/Lyem/pyneko'
     if language == 'PT-BR':
         print('-> Esse programa renomeia as pastas para estarem dentro do padrão de upload do programa do One.')
-        print('-> Link para o uploader: ', end='')
+        print('-> Utilize o nome da obra e os nomes dos grupos igual a como está no Mapa de IDs do uploader.')
+        print('-> Use o seguinte padrão para que o programa renomeie as pastas com os volumes certos = volume | volume:capitulo-capitulo;volume:capitulo-capitulo')
+        print('-> Exemplos = 1 | 1:1-10;2:11-20')
+        print('-> Para os grupos, é o mesmo padrão, mas se for só um grupo para todos os capítulos, digite somente o nome do grupo. E, para mais de um grupo, coloque + entre os nomes = grupo:capitulo-capitulo;grupo+grupo:capitulo-capitulo')
+        print('-> Exemplos = Scan_A:1-10;Scan_A+Scan_B:11-20;Scan_B:21-30')
+        print(f'-> Baixe o uploader em = {uploader_link}')
+        print(f'-> Utilize o Pyneko para baixar as obras = {pyneko_link}\n')
     else:
         print('-> This program renames the folders to conform the upload standard of One\'s program.')
-        print('-> Link to the uploader: ', end='')
-    
-    print('https://github.com/OneDefauter/mupl' + '\n')
+        print('-> Use the name of the work and the names of the groups exactly as they are in the uploader\'s ID Map.')
+        print('-> Use the following format for the program to rename the folders with the correct volumes: volume | volume:chapter-chapter;volume:chapter-chapter')
+        print('-> Examples = 1 | 1:1-10;2:11-20')
+        print('-> For the groups, it\'s the same format, but if there is only one group for all the chapters, enter just the name of the group. And, for multiple groups, place a + between the names = group:chapter-chapter;group+group:chapter-chapter')
+        print('-> Examples = Scan_A:1-10;Scan_A+Scan_B:11-20;Scan_B:21-30')
+        print(f'-> Download the uploader on = {uploader_link}')
+        print(f'-> Use the Pyneko to download the manga/manhwa/manhua = {pyneko_link}\n')
 
 def explain_create_chapters_folder(language:str):
     if language == 'PT-BR':
@@ -55,7 +67,7 @@ def confirm_chapters_folder_insertion(language:str):
 
 def start_fix_chapter_numeration(language:str):
     if language == 'PT-BR':
-        print('Padronizando dos números dos capítulos:\n')
+        print('Padronizando os números dos capítulos:\n')
     else:
         print('Standardizing the chapter numbers:\n')
 
@@ -67,11 +79,11 @@ def finish_fix_chapter_numeration(language:str):
 
 def define_work(language:str):
     if language == 'PT-BR':
-        args = {'msg_input': 'Digite o nome da obra, o mesmo colocado no Mapa de IDs: ',
-                'msg_error': 'O nome da obra não pode conter espaços. Utilize "_" ou "-" ao invés disso.'}
+        args = {'msg_input': 'Digite o nome da obra: ',
+                'msg_error': 'O nome da obra não pode conter espaços. Utilize "_" ao invés disso.'}
     else:
-        args = {'msg_input': 'Type the name of the work, the same one used in the ID Map: ',
-                'msg_error': 'The name of the work cannot contain spaces. Use "_" or "-" instead.'}
+        args = {'msg_input': 'Type the name of the work: ',
+                'msg_error': 'The name of the work cannot contain spaces. Use "_" instead.'}
     
     work = validate_space(**args)
     
@@ -79,6 +91,71 @@ def define_work(language:str):
     
     return work
 
+def get_volumes_division(language:str):
+    if language == 'PT-BR':
+        args = {'msg_input': 'Digite os volumes e os capítulos em cada volume: ',
+                'msg_error': 'Siga o padrão explicado nas instruções.'}
+    else:
+        args = {'msg_input': 'Type the volumes and the chapter in each volume: ',
+                'msg_error': 'Follow the pattern explained in the instructions.'}
+    
+    volumes = validate_space(**args)
+    
+    return volumes
+
+def define_volumes(language:str):
+    if language == 'PT-BR':
+        args = {'msg_input': 'A obra tem número do volume [S | N]: ',
+                'msg_error': 'Digite somente "S" ou "N".',
+                'options': ['S', 'SIM', 'N', 'NÃO', 'NAO']}
+    else:
+        args = {'msg_input': 'The work has volume number [Y | N]: ',
+                'msg_error': 'Type only "Y" or "N".',
+                'options': ['Y', 'YES', 'N', 'NO']}
+    
+    if validate_option(**args) in ['S', 'SIM', 'Y', 'YES']:
+        print()
+        volumes = get_volumes_division(language)
+    else:
+        volumes = ''
+
+    print()
+    
+    return volumes
+
+def define_chapter_title(language:str):
+    if language == 'PT-BR':
+        args = {'msg_input': 'Os capítulos tem título [S | N]: ',
+                'msg_error': 'Digite somente "S" ou "N".',
+                'options': ['S', 'SIM', 'N', 'NÃO', 'NAO']}
+    else:
+        args = {'msg_input': 'The chapters have title [Y | N]: ',
+                'msg_error': 'Type only "Y" or "N".',
+                'options': ['Y', 'YES', 'N', 'NO']}
+    
+    if validate_option(**args) in ['S', 'SIM', 'Y', 'YES']:
+        chapter_title = ' ()'
+    else:
+        chapter_title = ''
+    
+    print()
+    
+    return chapter_title
+
+def define_groups(language:str):
+    if language == 'PT-BR':
+        args = {'msg_input': 'Digite o(s) grupo(s): ',
+                'msg_error': 'Siga o padrão explicado nas instruções.'}
+    else:
+        args = {'msg_input': 'Type the group(s): ',
+                'msg_error': 'Follow the pattern explained in the instructions.'}
+    
+    groups = validate_space(**args)
+    
+    print()
+    
+    return groups
+        
 def start_rename_folders(language:str):
     if language == 'PT-BR':
         print('Renomeando as pastas:\n')
