@@ -1,4 +1,4 @@
-# Mupl Folder Rename
+# Mupl Folder Renamer
 
 ## Informações
 
