@@ -41,9 +41,18 @@ def get_volume_or_group(folder:str, volumes_or_group:str):
         else:
             chapters_begin = list_chapters[volume_or_group_divisor + 1:chapter_divisor]
             chapters_end = list_chapters[chapter_divisor + 1:]
-            for chapter in range(int(chapters_begin), int(chapters_end) + 1):
-                if str(chapter) == folder:
-                    return volume_or_group
+            
+            # Convert to float
+            chapters_begin_float = float(chapters_begin)
+            
+            if int(chapters_end) != float(chapters_end):
+                chapters_end_float = float(chapters_end)
+            else:
+                chapters_end_float = float(chapters_end) + 0.9
+
+            # Verifiy if the folder is between the start and end chapters
+            if float(folder) >= chapters_begin_float and float(folder) <= chapters_end_float:
+                return volume_or_group
 
 def rename_folders(work:str, volumes:str, chapter_title:str, groups:str):
     folders = os.listdir(CHAPTERS_FOLDER)
