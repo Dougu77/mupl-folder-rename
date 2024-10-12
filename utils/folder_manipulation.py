@@ -34,11 +34,16 @@ def get_volume_or_group(folder:str, volumes_or_group:str):
         volume_or_group_divisor = list_chapters.find(':')
         chapter_divisor = list_chapters.find('-')
         volume_or_group = list_chapters[:volume_or_group_divisor]
-        chapters_begin = list_chapters[volume_or_group_divisor + 1:chapter_divisor]
-        chapters_end = list_chapters[chapter_divisor + 1:]
-        for chapter in range(int(chapters_begin), int(chapters_end) + 1):
-            if str(chapter) == folder:
+        
+        if chapter_divisor == -1:
+            if list_chapters[volume_or_group_divisor + 1:] == folder:
                 return volume_or_group
+        else:
+            chapters_begin = list_chapters[volume_or_group_divisor + 1:chapter_divisor]
+            chapters_end = list_chapters[chapter_divisor + 1:]
+            for chapter in range(int(chapters_begin), int(chapters_end) + 1):
+                if str(chapter) == folder:
+                    return volume_or_group
 
 def rename_folders(work:str, volumes:str, chapter_title:str, groups:str):
     folders = os.listdir(CHAPTERS_FOLDER)
