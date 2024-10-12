@@ -11,6 +11,8 @@ explain_create_chapters_folder(language)
 
 create_chapters_folder()
 
+folder_creation_test()
+
 confirm_chapters_folder_insertion(language)
 
 start_fix_chapter_numeration(language)
