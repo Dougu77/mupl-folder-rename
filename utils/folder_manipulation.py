@@ -1,34 +1,76 @@
+# Imports
 import os
 from time import sleep
 
+# Folder constant of where the chapters folders go
 CHAPTERS_FOLDER = 'chapters'
 
+# Functions
 def create_chapters_folder():
+    '''summary_
+    Create the folder where the chapters folders go.
+    '''
     os.makedirs(CHAPTERS_FOLDER, exist_ok=True)
 
 def fix_chapter_numeration():
+    '''summary_
+    Padronize the chapter number to the Mupl pattern.
+    '''
+    
+    # Get the folders
     folders = os.listdir(CHAPTERS_FOLDER)
+    
+    # Iterate in each folder
     for folder in folders:
+        
+        # Verify if the folder name is only number
         if not folder.isdigit():
             space = folder.find(' ')
-            folder_digit = folder[space + 1:]
+            folder_digit_one = folder[space + 1:]
         else:
-            folder_digit = folder
+            folder_digit_one = folder
 
-        if folder_digit.startswith('0'):
-            folder_final = folder_digit[1:]
+        # Verify if the folder is 3 digits
+        if len(folder_digit_one) == 3:
+            
+            # Verify if the folder is of chapters below 10
+            if folder_digit_one[1] == '0':
+                folder_digit_two = folder_digit_one[2]
+            else:
+                folder_digit_two = folder_digit_one[1:]
         else:
-            folder_final = folder_digit
+            folder_digit_two = folder_digit_one
+        
+        # Verify if the folder is of chapters below 10 
+        if folder_digit_two.startswith('0'):
+            folder_final = folder_digit_two[1:]
+        else:
+            folder_final = folder_digit_two
 
+        # Rename the folder
         os.rename(f'{CHAPTERS_FOLDER}/{folder}', f'{CHAPTERS_FOLDER}/{folder_final}')
 
+        # Print "." after renaming the chapter
         print('.', end='', flush=True)
 
+        # Wait 0.2 second to make the next folder rename
         sleep(0.2)
     
+    # Break a line in the console after renaming all folders
     print('\n')
 
 def get_volume_or_group(folder:str, volumes_or_group:str):
+    '''summary_
+    Get the data of which volume or group the chapter belongs.
+    
+    Args:
+        folder (str): The folder that is going the be used to check the data.
+        volumes_or_group (str): The list of volumes or groups division of all folders.
+
+    Returns:
+        str: The volume or the group that the chapter belongs.
+    '''   
+
     list_division = volumes_or_group.split(';')
     for list_chapters in list_division:
         volume_or_group_divisor = list_chapters.find(':')
