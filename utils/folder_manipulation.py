@@ -33,11 +33,16 @@ def fix_chapter_numeration():
         # Verify if the folder is 3 digits
         if len(folder_digit_one) == 3:
             
-            # Verify if the folder is of chapters below 10
-            if folder_digit_one[1] == '0':
-                folder_digit_two = folder_digit_one[2]
+            # Verify if the folder is a special chapter (X.5)
+            if folder_digit_one[1] == '.':
+                folder_digit_two = folder_digit_one
             else:
-                folder_digit_two = folder_digit_one[1:]
+
+                # Verify if the folder is of chapters below 10
+                if folder_digit_one[1] == '0':
+                    folder_digit_two = folder_digit_one[2]
+                else:
+                    folder_digit_two = folder_digit_one[1:]
         else:
             folder_digit_two = folder_digit_one
         
