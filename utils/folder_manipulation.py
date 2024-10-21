@@ -76,30 +76,36 @@ def get_volume_or_group(folder:str, volumes_or_group:str):
         str: The volume or the group that the chapter belongs.
     '''   
 
+    # Get the list of chapters in each volume or group
     list_division = volumes_or_group.split(';')
+    
+    # Iterate in each part of the list
     for list_chapters in list_division:
+        
+        # Get the divisors of the data
         volume_or_group_divisor = list_chapters.find(':')
         chapter_divisor = list_chapters.find('-')
         volume_or_group = list_chapters[:volume_or_group_divisor]
         
+        # Verify if it's only 1 chapter in the volume or group
         if chapter_divisor == -1:
-            if list_chapters[volume_or_group_divisor + 1:] == folder:
-                return volume_or_group
+            chapters_begin, chapters_end = float(list_chapters[volume_or_group_divisor + 1:])
+            
         else:
             chapters_begin = list_chapters[volume_or_group_divisor + 1:chapter_divisor]
             chapters_end = list_chapters[chapter_divisor + 1:]
             
-            # Convert to float
-            chapters_begin_float = float(chapters_begin)
-            
-            if int(chapters_end) != float(chapters_end):
-                chapters_end_float = float(chapters_end)
-            else:
-                chapters_end_float = float(chapters_end) + 0.9
+        # Convert to float
+        chapters_begin_float = float(chapters_begin)
+        
+        if int(chapters_end) != float(chapters_end):
+            chapters_end_float = float(chapters_end)
+        else:
+            chapters_end_float = float(chapters_end) + 0.9
 
-            # Verifiy if the folder is between the start and end chapters
-            if float(folder) >= chapters_begin_float and float(folder) <= chapters_end_float:
-                return volume_or_group
+        # Verifiy if the folder is between the start and end chapters
+        if float(folder) >= chapters_begin_float and float(folder) <= chapters_end_float:
+            return volume_or_group
 
 def rename_folders(work:str, volumes:str, chapter_title:str, groups:str):
     folders = os.listdir(CHAPTERS_FOLDER)
