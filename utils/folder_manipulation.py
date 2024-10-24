@@ -48,7 +48,10 @@ def fix_chapter_numeration():
         
         # Verify if the folder is of chapters below 10 
         if folder_digit_two.startswith('0'):
-            folder_final = folder_digit_two[1:]
+            if len(folder_digit_two) == 1:
+                folder_final = folder_digit_two
+            else:
+                folder_final = folder_digit_two[1:]
         else:
             folder_final = folder_digit_two
 
