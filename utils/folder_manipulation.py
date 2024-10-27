@@ -23,37 +23,11 @@ def fix_chapter_numeration():
     # Iterate in each folder
     for folder in folders:
         
-        # Verify if the folder name is only number
-        if not folder.isdigit():
-            space = folder.find(' ')
-            folder_digit_one = folder[space + 1:]
-        else:
-            folder_digit_one = folder
+        # Make the first verification
+        folder_verification_one = check_if_chapter_is_digit(folder)
 
-        # Verify if the folder is 3 digits
-        if len(folder_digit_one) == 3:
-            
-            # Verify if the folder is a special chapter (X.5)
-            if folder_digit_one[1] == '.':
-                folder_digit_two = folder_digit_one
-            else:
-
-                # Verify if the folder is of chapters below 10
-                if folder_digit_one[1] == '0':
-                    folder_digit_two = folder_digit_one[2]
-                else:
-                    folder_digit_two = folder_digit_one[1:]
-        else:
-            folder_digit_two = folder_digit_one
-        
-        # Verify if the folder is of chapters below 10 
-        if folder_digit_two.startswith('0'):
-            if len(folder_digit_two) == 1:
-                folder_final = folder_digit_two
-            else:
-                folder_final = folder_digit_two[1:]
-        else:
-            folder_final = folder_digit_two
+        # Make the second verification
+        folder_final = erase_chapter_left_zeros(folder_verification_one)
 
         # Rename the folder
         os.rename(f'{CHAPTERS_FOLDER}/{folder}', f'{CHAPTERS_FOLDER}/{folder_final}')
@@ -66,6 +40,48 @@ def fix_chapter_numeration():
     
     # Break a line in the console after renaming all folders
     print('\n')
+
+def check_if_chapter_is_digit(folder:str):
+    '''summary_
+    Checks if the chapter number is a digit or not, to erase characters from the string.
+    
+    Args:
+        folder (str): The folder that is going to be verified
+
+    Returns:
+        str: The verified folder name
+    '''
+
+    if not folder.isdigit():
+        space = folder.find(' ')
+        return folder[space + 1:]
+    else:
+        return folder
+
+def erase_chapter_left_zeros(folder:str):
+    '''summary_
+    Checks if the chapter number is with a lot of zeros in the left.
+    
+    Args:
+        folder (str): The folder that is going to be verified
+
+    Returns:
+        str: The verified folder name
+    '''
+
+    counter = 0
+    while True:
+        if counter == len(folder):
+            break
+        else:
+            if folder[counter] == '0':
+                counter += 1
+            else:
+                break
+    if counter == 0:
+        return folder
+    else:
+        return folder[counter - 1:]
 
 def get_volume_or_group(folder:str, volumes_or_group:str):
     '''summary_
