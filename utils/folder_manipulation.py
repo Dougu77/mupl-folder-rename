@@ -108,7 +108,7 @@ def get_volume_or_group(folder:str, volumes_or_group:str):
         
         # Verify if it's only 1 chapter in the volume or group
         if chapter_divisor == -1:
-            chapters_begin, chapters_end = float(list_chapters[volume_or_group_divisor + 1:])
+            chapters_begin = chapters_end = float(list_chapters[volume_or_group_divisor + 1:])
             
         else:
             chapters_begin = list_chapters[volume_or_group_divisor + 1:chapter_divisor]
